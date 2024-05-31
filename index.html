@@ -3,18 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motivation</title>
+    <title>WeatherApp</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <button id="btn">Натисни і тут з'явиться мотивуюча цитата</button>
 
-        <p id="par"></p>
+<div id="container">
+
+    <div id="header">
+        <input id="input" type="text" placeholder="Please enter city...">
     </div>
+
+    <div id="when-where">
+        <p id="city">Montréal,CA</p>
+        <p id="date">Tuesday May 28, 2024</p>
+    </div>
+
+    <div id="now">
+        <p id="temperature">28°</p>
+        <p id="feelsLike">Feels like: 30°</p>
+        <p id="condition">Sunny</p>
+        <p id="varation">Min: 25° Max: 28°</p>
+    </div>
+
+</div>
 
     <script src="index.js"></script>
 </body>

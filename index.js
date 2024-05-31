@@ -1,19 +1,57 @@
-const button = document.querySelector("#btn");
-const par = document.querySelector("#par");
+const api = {
+    endpoint: "https://api.openweathermap.org/data/2.5/",
+    key: "216b014c467cec3df8df469798626982"
+}
+const input = document.querySelector("#input");
+input.addEventListener("keypress", enter);
 
-const quotes = [
-"« У меня нет мечты, у меня есть цель », - Харви Спектр",
-"« Возможности не приходят сами — вы создаете их»,  — Крис Гроссер.",
-"« Важно не то, сбили ли тебя с ног, — важно то, поднялся ли ты снова », — Винс Ломбарди.",
-"«Я не потерпел неудачу. Я просто нашёл 10 тыс. вариантов, которые не работают »,  — Томас Эдисон.",
-"« Никогда не отказывайся от того, о чем ты не можешь не думать каждый день » - Харви Спектр",
-"« Я — не результат обстоятельств. Я — результат собственных решений »,  — Стивен Кови.",
-"« Всегда выкладывайся на полную. Что посеешь — то и пожнешь »,  — Ог Мандино",
-"« Когда вас приперли к стенке, просто сломайте ее к черту», - Харви Спектр"
-]
+function enter(e) {
+    if (e.keyCode === 13) {
+        getInfo(input.value);
+    }
+}
 
-button.addEventListener ("click", function(){
-    let randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    par.style.display = "block";
-    par.textContent = randomQuote;
-})
+async function getInfo(data) {
+    const res = await fetch(`${api.endpoint}weather?q=${data}&units=metric&appID=${api.key}`);
+    const resReceived = await res.json();
+    console.log(resReceived);
+    displayResult(resReceived);
+}
+
+function displayResult(resReceived) {
+    let city = document.querySelector("#city");
+    city.textContent = `${resReceived.name}, ${resReceived.sys.country}`;
+    city.style. display = "block";
+    getOurDate();
+
+    let temperature = document.querySelector("#temperature");
+    temperature.innerHTML = `${Math.round(resReceived.main.temp)}<span>°</span>`
+    temperature.style. display = "block";
+
+    let feelsLike = document.querySelector("#feelsLike");
+    feelsLike.innerHTML = `${Math.round(resReceived.main.feels_like)}<span>°</span>`
+    feelsLike.style. display = "block";
+
+    let condition = document.querySelector("#condition");
+    condition.textContent = `${resReceived.weather[0].description}`
+    condition.style. display = "block";
+
+    let varation = document.querySelector("#varation");
+    varation.innerHTML = "Min: " + `${Math.round(resReceived.main.temp_min)}<span>°</span>` + " " + "Max: " + `${Math.round(resReceived.main.temp_max)}<span>°</span>`
+    varation.style. display = "block";
+}
+
+function getOurDate() {
+    const myDate = new Date();
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    let day = days[myDate.getDay()];
+    let todayDate = myDate.getDate();
+    let month = months[myDate.getMonth()];
+    let year = myDate.getFullYear();
+
+    let showDate = document.querySelector("#date");
+    showDate.textContent = `${day}` + " " + `${todayDate}` + " " + `${month}` + " " + `${year}`;
+    showDate.style. display = "block";
+}
